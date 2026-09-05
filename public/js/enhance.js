@@ -84,7 +84,9 @@
     document.body.appendChild(bar);
 
     /* ---------- back to top ---------- */
-    var top = document.createElement("button");
+    var existingTop = document.querySelector(".back-to-top");
+    var top = existingTop || document.createElement("button");
+    if (!existingTop) {
     top.id = "exTop";
     top.type = "button";
     top.setAttribute("aria-label", "Back to top");
