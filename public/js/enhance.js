@@ -12,12 +12,13 @@
   ready(function () {
     /* ---------- mark elements for reveal ---------- */
     var selectors = [
-      ".container-xxl .row > [class*='col-']",
-      "section .row > [class*='col-']",
-      ".service-item", ".team-item", ".testimonial-item", ".blog-item",
-      ".chamber-card", ".gallery-item", ".feature-item",
-      "h1.mb-4", "h1.display-6", "h2", "h3", "p.section-title",
-      ".footer .col-lg-3, .footer .col-md-6"
+      ".row > [class*='col-']",
+      ".service-item", ".team-item", ".testimonial-item", ".testimonial-card",
+      ".blog-item", ".chamber-card", ".gallery-item", ".feature-item",
+      ".qual-card", ".membership-card", ".card",
+      "h1", "h2", "h3", "p.section-title",
+      ".container > p", ".container > .text-center",
+      "form", "iframe", "table"
     ];
 
     var seen = new Set();
@@ -26,12 +27,15 @@
       try { nodes = document.querySelectorAll(sel); } catch (e) { return; }
       nodes.forEach(function (el) {
         if (seen.has(el)) return;
-        if (el.closest("[data-ex-reveal]")) return;
-        if (el.closest(".navbar, .modal, .lightbox, #exTop")) return;
+        if (el.classList.contains("wow")) return;           // WOW.js owns these
+        if (el.closest("[data-ex-reveal], .wow")) return;
+        if (el.closest(".navbar, .modal, .lightbox, .owl-carousel, .header-carousel, #exTop, footer .footer-bottom")) return;
+        if (el.getBoundingClientRect().height === 0) return;
         seen.add(el);
         el.setAttribute("data-ex-reveal", "");
       });
     });
+
 
     /* stagger siblings a bit */
     document.querySelectorAll(".row").forEach(function (row) {
