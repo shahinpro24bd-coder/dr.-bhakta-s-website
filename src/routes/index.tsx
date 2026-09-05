@@ -1,24 +1,31 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+// The site is a static HTML site served from /public.
+// "/" forwards to the static home page.
 export const Route = createFileRoute("/")({
-  component: Index,
+  beforeLoad: () => {
+    throw redirect({ href: "/index.html" });
+  },
+  head: () => ({
+    meta: [
+      { title: "Dr. Ananta Kumar Bhakta | Orthopedic & Spine Surgeon, Uttara, Dhaka" },
+      {
+        name: "description",
+        content:
+          "Dr. Ananta Kumar Bhakta — MBBS, BCS (Health), MS Orthopedics (NITOR), Endoscopic Spine Surgeon. Chambers in Uttara, Dhaka and Narsingdi. Serial: 01830-995336.",
+      },
+      {
+        property: "og:title",
+        content: "Dr. Ananta Kumar Bhakta | Orthopedic & Spine Surgeon",
+      },
+      {
+        property: "og:description",
+        content:
+          "Orthopedic, spine and endoscopic spine surgery care in Uttara, Dhaka. Serial booking: 01830-995336.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
+  component: () => null,
 });
-
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}
