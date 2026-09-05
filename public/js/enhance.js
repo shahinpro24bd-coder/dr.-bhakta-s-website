@@ -46,7 +46,8 @@
     });
 
     /* heading underline accent */
-    document.querySelectorAll("section h2, .container-xxl h2, .container-xxl h1.display-6").forEach(function (h) {
+    document.querySelectorAll("h2").forEach(function (h) {
+      if (h.closest(".navbar, .footer, .modal, .lightbox, .owl-carousel")) return;
       h.classList.add("ex-heading-line");
     });
 
@@ -54,6 +55,7 @@
 
     if (reduced || !("IntersectionObserver" in window)) {
       items.forEach(function (el) { el.classList.add("ex-in"); });
+      document.querySelectorAll(".ex-heading-line").forEach(function (el) { el.classList.add("ex-in"); });
     } else {
       var io = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
@@ -62,10 +64,19 @@
             io.unobserve(entry.target);
           }
         });
-      }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+      }, { threshold: 0.1, rootMargin: "0px 0px -6% 0px" });
       items.forEach(function (el) { io.observe(el); });
       document.querySelectorAll(".ex-heading-line").forEach(function (el) { io.observe(el); });
+
+      /* failsafe: never leave content invisible */
+      setTimeout(function () {
+        document.querySelectorAll("[data-ex-reveal]:not(.ex-in)").forEach(function (el) {
+          var r = el.getBoundingClientRect();
+          if (r.top < window.innerHeight && r.bottom > 0) el.classList.add("ex-in");
+        });
+      }, 2500);
     }
+
 
     /* ---------- scroll progress ---------- */
     var bar = document.createElement("div");
