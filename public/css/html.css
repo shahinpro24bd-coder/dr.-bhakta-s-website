@@ -979,6 +979,7 @@
         @media (max-width: 550px) {
             .hero1 { padding: 24px 18px; gap: 32px; }
             .hero21 .hero22 { font-size: clamp(16px, 5.2vw, 22px); }
+            .hero21 .hero22.hero22-long { font-size: clamp(14px, 4.4vw, 19px); }
             .hero25 { width: 100%; }
             .hero24 { flex-direction: column; width: 100%; }
         }
