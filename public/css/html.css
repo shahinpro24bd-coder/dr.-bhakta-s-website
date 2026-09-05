@@ -734,17 +734,20 @@
             box-shadow: 0 24px 40px -12px rgba(4, 99, 250, 0.15), 0 0 0 1px rgba(4, 99, 250, 0.1);
         }
         .hero21 .hero22 {
-            font-size: clamp(18px, 2.2vw, 30px);
+            font-size: clamp(18px, 1.9vw, 26px);
             line-height: 1.2;
-            overflow-wrap: break-word;
-            word-break: break-word;
-            hyphens: auto;
+            white-space: nowrap;
             font-weight: 800;
             background: linear-gradient(145deg, #0463FA, #0350c9);
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
             margin-bottom: 8px;
+        }
+        /* long single-word stat (e.g. "Endoscopic") gets a slightly smaller size so it never wraps */
+        .hero21 .hero22.hero22-long {
+            font-size: clamp(16px, 1.5vw, 22px);
+            letter-spacing: -0.2px;
         }
         .hero21 .hero23 {
             font-size: 13px;
@@ -976,6 +979,7 @@
         @media (max-width: 550px) {
             .hero1 { padding: 24px 18px; gap: 32px; }
             .hero21 .hero22 { font-size: clamp(16px, 5.2vw, 22px); }
+            .hero21 .hero22.hero22-long { font-size: clamp(14px, 4.4vw, 19px); }
             .hero25 { width: 100%; }
             .hero24 { flex-direction: column; width: 100%; }
         }
