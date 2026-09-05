@@ -83,18 +83,19 @@
     bar.id = "exProgress";
     document.body.appendChild(bar);
 
-    /* ---------- back to top ---------- */
-    var existingTop = document.querySelector(".back-to-top");
-    var top = existingTop || document.createElement("button");
-    if (!existingTop) {
-    top.id = "exTop";
-    top.type = "button";
-    top.setAttribute("aria-label", "Back to top");
-    top.innerHTML = '<i class="bi bi-arrow-up"></i>';
-    document.body.appendChild(top);
-    top.addEventListener("click", function () {
-      window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
-    });
+    /* ---------- back to top (reuse the theme button when present) ---------- */
+    var top = document.querySelector(".back-to-top");
+    if (!top) {
+      top = document.createElement("button");
+      top.id = "exTop";
+      top.type = "button";
+      top.setAttribute("aria-label", "Back to top");
+      top.innerHTML = '<i class="bi bi-arrow-up"></i>';
+      document.body.appendChild(top);
+      top.addEventListener("click", function () {
+        window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+      });
+    }
 
     var nav = document.querySelector(".navbar");
 
@@ -102,11 +103,12 @@
       var h = document.documentElement.scrollHeight - window.innerHeight;
       var y = window.scrollY || window.pageYOffset;
       bar.style.width = (h > 0 ? (y / h) * 100 : 0) + "%";
-      top.classList.toggle("ex-show", y > 400);
+      if (top.id === "exTop") top.classList.toggle("ex-show", y > 400);
       if (nav) nav.classList.toggle("ex-nav-scrolled", y > 60);
     }
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
+
 
     /* ---------- animated counters ---------- */
     var counters = document.querySelectorAll("[data-toggle='counter-up'], .counter-value, [data-ex-count]");
